@@ -1,0 +1,5 @@
+{
+  "env": {
+    "OPENEX_API_KEY": "@openex-api-key"
+  }
+}
