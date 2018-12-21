@@ -7,16 +7,32 @@ import { IRates } from "../src/modules/exchange/types";
 export interface IIndexProps {
   rates: IRates;
 }
-export default class extends React.Component<IIndexProps> {
+
+export interface IIndexState {
+  baseCurrency: string;
+  exchangeCurrency: string;
+}
+
+export default class extends React.Component<IIndexProps, IIndexState> {
   public static async getInitialProps() {
     const rates = await getLatestRates();
     return { rates };
   }
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      baseCurrency: "USD",
+      exchangeCurrency: "EUR",
+    };
+  }
+
   public render() {
     return (
       <div>
-        {JSON.stringify(this.props.rates)}
+        <h1>Exchange</h1>
+        <div>base curr</div>
+        <div>exchange curr</div>
       </div>
     );
   }
