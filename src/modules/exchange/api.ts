@@ -7,7 +7,7 @@ async function getLatestRates(): Promise<IRates> {
   return {
     EUR: apiResponse.rates.EUR,
     GBP: apiResponse.rates.GBP,
-    timestamp: new Date(apiResponse.timestamp),
+    USD: 1,
   };
 }
 

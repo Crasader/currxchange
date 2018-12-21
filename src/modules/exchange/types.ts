@@ -1,5 +1,11 @@
 export interface IRates {
   EUR: number;
   GBP: number;
-  timestamp: Date;
+  USD: 1;
+}
+
+export enum Currency {
+  EUR = "EUR",
+  GBP = "GBP",
+  USD = "USD",
 }
