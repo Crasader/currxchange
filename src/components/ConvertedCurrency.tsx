@@ -1,28 +1,17 @@
 import * as React from "react";
 
+import * as T from "../modules/exchange/types";
+
 export interface IConvertedCurrencyProps {
-  baseCurrency: string;
-  targetCurrency: string;
+  targetCurrency: T.Currency;
   value: number;
 }
 
-export interface IConvertedCurrencyState {
-  value: number;
-}
+const ConvertedCurrency: React.SFC<IConvertedCurrencyProps> = (props) => (
+  <div>
+    <div>{props.targetCurrency}</div>
+    <div>{props.value}</div>
+  </div>
+);
 
-export default class extends React.Component<IConvertedCurrencyProps, IConvertedCurrencyState> {
-  constructor(props) {
-    super(props);
-    this.state = {value: props.value};
-  }
-
-  public render() {
-    return (
-      <div>
-        <div>{this.props.targetCurrency}</div>
-        <div>{this.state.value}</div>
-      </div>
-    );
-  }
-
-}
+export default ConvertedCurrency;

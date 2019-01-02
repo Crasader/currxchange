@@ -1,3 +1,4 @@
+import "isomorphic-unfetch";
 import { IRates } from "./types";
 const OPENEX_URL = `https://openexchangerates.org/api/latest.json?app_id=${process.env.OPENEX_API_KEY}`;
 

@@ -1,25 +1,23 @@
 import * as React from "react";
 
+import * as T from "../modules/exchange/types";
+
 export interface ICurrencyInputProps {
-  currency: string;
+  currency: T.Currency;
   value: number;
   handleChange: (value: number) => void;
 }
 
-export interface ICurrencyInputState {
-  value: number;
-}
-
-export default class extends React.Component<ICurrencyInputProps, ICurrencyInputState> {
+export default class extends React.Component<ICurrencyInputProps> {
   constructor(props) {
     super(props);
-    this.state = {value: props.value};
+    this.handleChange = this.handleChange.bind(this);
   }
 
   public render() {
     return (
       <div>
-        <input type="text" value={this.state.value} onChange={this.handleChange} />
+        <input type="text" value={this.props.value} onChange={this.handleChange} />
       </div>
     );
   }
