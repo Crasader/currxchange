@@ -2,7 +2,6 @@ import * as React from "react";
 
 import ConvertedCurrency from "../src/components/ConvertedCurrency";
 import CurrencyDropdown from "../src/components/CurrencyDropdown";
-import CurrencyInput from "../src/components/CurrencyInput";
 
 import { getLatestRates } from "../src/modules/exchange/api";
 import convert from "../src/modules/exchange/convert";
@@ -41,10 +40,9 @@ export default class extends React.Component<IIndexProps, IIndexState> {
           currency={this.state.baseCurrency}
           handleChange={this.handleChangeCurrency("baseCurrency")}
         />
-        <CurrencyInput
-          value={ this.state.value }
-          currency={ this.state.baseCurrency } handleChange={this.handleChangeValue}
-        />
+        <div>
+          <input type="text" value={this.state.value} onChange={this.handleChangeValue} />
+        </div>
         <CurrencyDropdown
           currency={this.state.targetCurrency}
           handleChange={this.handleChangeCurrency("targetCurrency")}
@@ -57,8 +55,11 @@ export default class extends React.Component<IIndexProps, IIndexState> {
     );
   }
 
-  private handleChangeValue = (value: number) => {
-    this.setState({value});
+  private handleChangeValue = (event) => {
+    const newValue = Number(event.target.value);
+    if (!isNaN(newValue)) {
+      this.setState({value: newValue});
+    }
   }
 
   private handleChangeCurrency = (currencyType: "baseCurrency" | "targetCurrency") => {
