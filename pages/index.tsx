@@ -13,6 +13,7 @@ export interface IIndexProps {
 
 export interface IIndexState {
   baseCurrency: T.Currency;
+  rates: T.IRates;
   targetCurrency: T.Currency;
   value: number;
 }
@@ -27,9 +28,17 @@ export default class extends React.Component<IIndexProps, IIndexState> {
     super(props);
     this.state = {
       baseCurrency: T.Currency.USD,
+      rates: props.rates,
       targetCurrency: T.Currency.EUR,
       value: 1,
     };
+  }
+
+  public componentDidMount() {
+    setInterval(async () => {
+      const rates = await getLatestRates();
+      this.setState({ rates });
+    }, 10000);
   }
 
   public render() {
@@ -49,7 +58,7 @@ export default class extends React.Component<IIndexProps, IIndexState> {
         />
         <ConvertedCurrency
           targetCurrency={ this.state.targetCurrency }
-          value={ convert(this.props.rates, this.state.baseCurrency, this.state.targetCurrency, this.state.value) }
+          value={ convert(this.state.rates, this.state.baseCurrency, this.state.targetCurrency, this.state.value) }
         />
       </div>
     );

@@ -1,7 +1,7 @@
 export interface IRates {
   EUR: number;
   GBP: number;
-  USD: 1;
+  USD: number;
 }
 
 export enum Currency {
