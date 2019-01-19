@@ -1,4 +1,4 @@
-export interface IRates {
+export interface ICurrencies {
   EUR: number;
   GBP: number;
   USD: number;

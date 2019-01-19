@@ -1,8 +1,8 @@
 import "isomorphic-unfetch";
-import { IRates } from "./types";
+import { ICurrencies } from "./types";
 const OPENEX_URL = `https://openexchangerates.org/api/latest.json?app_id=${process.env.OPENEX_API_KEY}`;
 
-async function getLatestRates(): Promise<IRates> {
+async function getLatestRates(): Promise<ICurrencies> {
   const openExFetch = await fetch(OPENEX_URL);
   const apiResponse = await openExFetch.json();
   return {

@@ -8,12 +8,12 @@ import convert from "../src/modules/exchange/convert";
 import * as T from "../src/modules/exchange/types";
 
 export interface IIndexProps {
-  rates: T.IRates;
+  rates: T.ICurrencies;
 }
 
 export interface IIndexState {
   baseCurrency: T.Currency;
-  rates: T.IRates;
+  rates: T.ICurrencies;
   targetCurrency: T.Currency;
   value: number;
 }
