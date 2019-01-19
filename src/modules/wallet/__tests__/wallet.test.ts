@@ -31,3 +31,36 @@ describe("create wallet", () => {
     expect(createWallet(balances)).toThrow();
   });
 });
+
+describe("getBalance", () => {
+  const wallet = new Wallet({EUR: 1, GBP: 2, USD: 3});
+  it("gets the balance for the EUR", () => {
+    expect(wallet.getBalance(E.Currency.EUR)).toBe(1);
+  });
+
+  it("gets the balance for the GBP", () => {
+    expect(wallet.getBalance(E.Currency.GBP)).toBe(2);
+  });
+
+  it("gets the balance for the USD", () => {
+    expect(wallet.getBalance(E.Currency.USD)).toBe(3);
+  });
+});
+
+describe("exchange", () => {
+  const balance = ({EUR: 1, GBP: 2, USD: 3});
+  const wallet = new Wallet(balance);
+  const rates: E.ICurrencies = {EUR: 0.87, GBP: 0.78, USD: 1};
+
+  it("updates balance when converting with enough balance", () => {
+    const exchange = 1;
+    const newValue = balance.EUR + ((rates.EUR / rates.USD) * exchange);
+    const newWallet = wallet.exchange(rates, E.Currency.USD, E.Currency.EUR, exchange);
+    expect(newWallet.getBalance(E.Currency.EUR)).toBe(newValue);
+  });
+
+  it("throws an error when exchange is bigger than current balance", () => {
+    const exchange = 10;
+    expect(() => wallet.exchange(rates, E.Currency.USD, E.Currency.EUR, exchange)).toThrow();
+  });
+});

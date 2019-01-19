@@ -5,16 +5,16 @@ import CurrencyDropdown from "../src/components/CurrencyDropdown";
 
 import { getLatestRates } from "../src/modules/exchange/api";
 import convert from "../src/modules/exchange/convert";
-import * as T from "../src/modules/exchange/types";
+import * as E from "../src/modules/exchange/types";
 
 export interface IIndexProps {
-  rates: T.ICurrencies;
+  rates: E.ICurrencies;
 }
 
 export interface IIndexState {
-  baseCurrency: T.Currency;
-  rates: T.ICurrencies;
-  targetCurrency: T.Currency;
+  baseCurrency: E.Currency;
+  rates: E.ICurrencies;
+  targetCurrency: E.Currency;
   value: number;
 }
 
@@ -27,9 +27,9 @@ export default class extends React.Component<IIndexProps, IIndexState> {
   constructor(props) {
     super(props);
     this.state = {
-      baseCurrency: T.Currency.USD,
+      baseCurrency: E.Currency.USD,
       rates: props.rates,
-      targetCurrency: T.Currency.EUR,
+      targetCurrency: E.Currency.EUR,
       value: 1,
     };
   }
