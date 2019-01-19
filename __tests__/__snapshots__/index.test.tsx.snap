@@ -35,6 +35,14 @@ exports[`With Snapshot Testing App shows the header 1`] = `
     />
   </div>
   <div>
+    <div>
+      USD
+    </div>
+    <div>
+      100
+    </div>
+  </div>
+  <div>
     <select
       onChange={[Function]}
       value="EUR"
@@ -64,5 +72,18 @@ exports[`With Snapshot Testing App shows the header 1`] = `
       2
     </div>
   </div>
+  <div>
+    <div>
+      EUR
+    </div>
+    <div>
+      100
+    </div>
+  </div>
+  <button
+    onClick={[Function]}
+  >
+    Exchange
+  </button>
 </div>
 `;

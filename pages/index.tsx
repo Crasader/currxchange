@@ -1,11 +1,14 @@
 import * as React from "react";
 
-import ConvertedCurrency from "../src/components/ConvertedCurrency";
+import CurrencyDisplay from "../src/components/CurrencyDisplay";
 import CurrencyDropdown from "../src/components/CurrencyDropdown";
 
 import { getLatestRates } from "../src/modules/exchange/api";
-import convert from "../src/modules/exchange/convert";
+import getExchangeRate from "../src/modules/exchange/getExchangeRate";
 import * as E from "../src/modules/exchange/types";
+
+import * as W from "../src/modules/wallet/types";
+import Wallet from "../src/modules/wallet/wallet";
 
 export interface IIndexProps {
   rates: E.ICurrencies;
@@ -16,6 +19,7 @@ export interface IIndexState {
   rates: E.ICurrencies;
   targetCurrency: E.Currency;
   value: number;
+  wallet: W.IWallet;
 }
 
 export default class extends React.Component<IIndexProps, IIndexState> {
@@ -31,6 +35,7 @@ export default class extends React.Component<IIndexProps, IIndexState> {
       rates: props.rates,
       targetCurrency: E.Currency.EUR,
       value: 1,
+      wallet: new Wallet({EUR: 100, GBP: 100, USD: 100}),
     };
   }
 
@@ -42,6 +47,8 @@ export default class extends React.Component<IIndexProps, IIndexState> {
   }
 
   public render() {
+    const baseBalance = this.state.wallet.getBalance(this.state.baseCurrency);
+    const targetBalance = this.state.wallet.getBalance(this.state.targetCurrency);
     return (
       <div>
         <h1>Exchange</h1>
@@ -52,14 +59,19 @@ export default class extends React.Component<IIndexProps, IIndexState> {
         <div>
           <input type="text" value={this.state.value} onChange={this.handleChangeValue} />
         </div>
+        <CurrencyDisplay currency={this.state.baseCurrency} value={baseBalance} />
         <CurrencyDropdown
           currency={this.state.targetCurrency}
           handleChange={this.handleChangeCurrency("targetCurrency")}
         />
-        <ConvertedCurrency
-          targetCurrency={ this.state.targetCurrency }
-          value={ convert(this.state.rates, this.state.baseCurrency, this.state.targetCurrency, this.state.value) }
+        <CurrencyDisplay
+          currency={ this.state.targetCurrency }
+          value={ getExchangeRate(this.state.rates, this.state.baseCurrency, this.state.targetCurrency) }
         />
+        <CurrencyDisplay currency={this.state.targetCurrency} value={targetBalance} />
+        <button onClick={this.handleConvert}>
+          Exchange
+        </button>
       </div>
     );
   }
@@ -79,5 +91,14 @@ export default class extends React.Component<IIndexProps, IIndexState> {
         this.setState(obj);
       }
     };
+  }
+
+  private handleConvert = () => {
+    this.setState({wallet: this.state.wallet.exchange(
+      this.state.rates,
+      this.state.baseCurrency,
+      this.state.targetCurrency,
+      this.state.value,
+    )});
   }
 }
