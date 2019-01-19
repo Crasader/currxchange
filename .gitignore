@@ -3,3 +3,4 @@ coverage/
 .next/
 now-secrets.json
 yarn-error.log
+npm-debug.log
