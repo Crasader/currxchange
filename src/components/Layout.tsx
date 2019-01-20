@@ -1,7 +1,11 @@
 import { theme, ThemeProvider} from "../theme/index";
+import Head from "./Head";
 
 export default ({ children }) => (
-  <ThemeProvider theme={theme}>
-    {children}
-  </ThemeProvider>
+  <div>
+    <Head />
+    <ThemeProvider theme={theme}>
+      {children}
+    </ThemeProvider>
+  </div>
 );

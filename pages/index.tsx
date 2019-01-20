@@ -2,6 +2,7 @@ import * as React from "react";
 
 import CurrencyDisplay from "../src/components/CurrencyDisplay";
 import CurrencyDropdown from "../src/components/CurrencyDropdown";
+import Layout from "../src/components/Layout";
 
 import { getLatestRates } from "../src/modules/exchange/api";
 import getExchangeRate from "../src/modules/exchange/getExchangeRate";
@@ -50,29 +51,31 @@ export default class extends React.Component<IIndexProps, IIndexState> {
     const baseBalance = this.state.wallet.getBalance(this.state.baseCurrency);
     const targetBalance = this.state.wallet.getBalance(this.state.targetCurrency);
     return (
-      <div>
-        <h1>Exchange</h1>
-        <CurrencyDropdown
-          currency={this.state.baseCurrency}
-          handleChange={this.handleChangeCurrency("baseCurrency")}
-        />
-        <div>
-          <input type="text" value={this.state.value} onChange={this.handleChangeValue} />
-        </div>
-        <CurrencyDisplay currency={this.state.baseCurrency} value={baseBalance} />
-        <CurrencyDropdown
-          currency={this.state.targetCurrency}
-          handleChange={this.handleChangeCurrency("targetCurrency")}
-        />
-        <CurrencyDisplay
-          currency={ this.state.targetCurrency }
-          value={ getExchangeRate(this.state.rates, this.state.baseCurrency, this.state.targetCurrency) }
-        />
-        <CurrencyDisplay currency={this.state.targetCurrency} value={targetBalance} />
-        <button onClick={this.handleConvert}>
-          Exchange
-        </button>
-      </div>
+      <Layout>
+        <main>
+          <h1>Exchange</h1>
+          <CurrencyDropdown
+            currency={this.state.baseCurrency}
+            handleChange={this.handleChangeCurrency("baseCurrency")}
+          />
+          <div>
+            <input type="text" value={this.state.value} onChange={this.handleChangeValue} />
+          </div>
+          <CurrencyDisplay currency={this.state.baseCurrency} value={baseBalance} />
+          <CurrencyDropdown
+            currency={this.state.targetCurrency}
+            handleChange={this.handleChangeCurrency("targetCurrency")}
+          />
+          <CurrencyDisplay
+            currency={ this.state.targetCurrency }
+            value={ getExchangeRate(this.state.rates, this.state.baseCurrency, this.state.targetCurrency) }
+          />
+          <CurrencyDisplay currency={this.state.targetCurrency} value={targetBalance} />
+          <button onClick={this.handleConvert}>
+            Exchange
+          </button>
+        </main>
+      </Layout>
     );
   }
 
