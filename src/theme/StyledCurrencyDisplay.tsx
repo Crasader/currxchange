@@ -1,6 +1,9 @@
 import {styled} from "./index";
 
-export const StyledCurrencyDisplay = styled.div`
+export interface IStyledCurrencyDisplayProps {
+  backgroundColor: string;
+}
+export const StyledCurrencyDisplay = styled.div<IStyledCurrencyDisplayProps>`
   grid-column: span 1;
-  background-color: white;
+  background-color: ${(p) => p.backgroundColor};
 `;

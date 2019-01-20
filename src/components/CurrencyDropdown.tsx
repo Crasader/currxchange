@@ -43,7 +43,10 @@ export default class extends React.Component<ICurrencyDropdownProps, ICurrencyDr
   }
 
   private handleChange = (value: string) => {
-    this.setState({value});
+    this.setState({
+      listOpen: false,
+      value,
+    });
     this.props.handleChange(value);
   }
 

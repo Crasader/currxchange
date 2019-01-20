@@ -3,6 +3,6 @@ import { StyledExchangeLabel } from "../theme/StyledExchangeLabel";
 export default ({ exchangeRate }) => (
   <StyledExchangeLabel>
     <img src={stocks} />
-    {exchangeRate}
+    {exchangeRate.toFixed(4)}
   </StyledExchangeLabel>
 );

@@ -21,9 +21,10 @@ export interface IIndexProps {
 
 export interface IIndexState {
   baseCurrency: E.Currency;
+  exchangeRate: number;
   rates: E.ICurrencies;
   targetCurrency: E.Currency;
-  value: number;
+  value: string;
   wallet: W.IWallet;
 }
 
@@ -35,11 +36,15 @@ export default class extends React.Component<IIndexProps, IIndexState> {
 
   constructor(props) {
     super(props);
+    const baseCurrency = E.Currency.USD;
+    const rates = props.rates;
+    const targetCurrency = E.Currency.EUR;
     this.state = {
-      baseCurrency: E.Currency.USD,
+      baseCurrency,
+      exchangeRate: getExchangeRate(rates, baseCurrency, targetCurrency),
       rates: props.rates,
-      targetCurrency: E.Currency.EUR,
-      value: 1,
+      targetCurrency,
+      value: "",
       wallet: new Wallet({EUR: 100, GBP: 100, USD: 100}),
     };
   }
@@ -54,26 +59,25 @@ export default class extends React.Component<IIndexProps, IIndexState> {
   public render() {
     const baseBalance = this.state.wallet.getBalance(this.state.baseCurrency);
     const targetBalance = this.state.wallet.getBalance(this.state.targetCurrency);
-    const exchangeRate = getExchangeRate(this.state.rates, this.state.baseCurrency, this.state.targetCurrency);
     return (
       <Layout>
-        <StyledCurrencyDisplay>
+        <StyledCurrencyDisplay backgroundColor="#FFF" >
           <CurrencyDropdown
             currency={this.state.baseCurrency}
             handleChange={this.handleChangeCurrency("baseCurrency")}
           />
           <div>
-            <input type="number" value={this.state.value} onChange={this.handleChangeValue} />
+            <input type="text" value={this.state.value} onChange={this.handleChangeValue} />
           </div>
-          <CurrencyDisplay currency={this.state.baseCurrency} value={baseBalance} />
+          <CurrencyDisplay value={baseBalance} />
         </StyledCurrencyDisplay>
-        <ExchangeContainer exchangeRate={exchangeRate} handleClick={this.handleSwap}/>
-        <StyledCurrencyDisplay>
+        <ExchangeContainer exchangeRate={this.state.exchangeRate} handleClick={this.handleSwap}/>
+        <StyledCurrencyDisplay backgroundColor="#F3F4F5" >
           <CurrencyDropdown
             currency={this.state.targetCurrency}
             handleChange={this.handleChangeCurrency("targetCurrency")}
           />
-          <CurrencyDisplay currency={this.state.targetCurrency} value={targetBalance} />
+          <CurrencyDisplay value={targetBalance} />
         </StyledCurrencyDisplay>
         <Footer handleConvert={this.handleConvert} />
       </Layout>
@@ -81,9 +85,10 @@ export default class extends React.Component<IIndexProps, IIndexState> {
   }
 
   private handleChangeValue = (event) => {
-    const newValue = Number(event.target.value);
-    if (!isNaN(newValue)) {
-      this.setState({value: newValue});
+    const floatRegExp = new RegExp("^([0-9]+([.][0-9]*)?|[.][0-9]?[0-9]?)$");
+    const value = event.target.value;
+    if (value === "" || floatRegExp.test(event.target.value)) {
+      this.setState({value});
     }
   }
 
@@ -92,7 +97,11 @@ export default class extends React.Component<IIndexProps, IIndexState> {
       if (this.state[currencyType] !== newCurrency) {
         const obj = {};
         obj[currencyType] = newCurrency;
-        this.setState(obj);
+        this.setState(obj, () => {
+          this.setState({
+            exchangeRate: getExchangeRate(this.state.rates, this.state.baseCurrency, this.state.targetCurrency),
+          });
+        });
       }
     };
   }
@@ -102,13 +111,14 @@ export default class extends React.Component<IIndexProps, IIndexState> {
       this.state.rates,
       this.state.baseCurrency,
       this.state.targetCurrency,
-      this.state.value,
+      Number(this.state.value),
     )});
   }
 
   private handleSwap = () => {
     this.setState({
       baseCurrency: this.state.targetCurrency,
+      exchangeRate: getExchangeRate(this.state.rates, this.state.targetCurrency, this.state.baseCurrency),
       targetCurrency: this.state.baseCurrency,
     });
   }
