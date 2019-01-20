@@ -5,17 +5,6 @@ const {
   createGlobalStyle,
   css,
   keyframes,
-  ThemeProvider,
-} = styledComponents as styledComponents.ThemedStyledComponentsModule<
-  IThemeInterface
-  >;
+} = styledComponents;
 
-export interface IThemeInterface {
-  primaryColor: string;
-}
-
-export const theme = {
-  primaryColor: "#FFF",
-};
-
-export { createGlobalStyle, css, keyframes, styled, ThemeProvider };
+export { createGlobalStyle, css, keyframes, styled };

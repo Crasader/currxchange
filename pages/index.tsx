@@ -67,7 +67,7 @@ export default class extends React.Component<IIndexProps, IIndexState> {
           </div>
           <CurrencyDisplay currency={this.state.baseCurrency} value={baseBalance} />
         </StyledCurrencyDisplay>
-        <ExchangeContainer exchangeRate={exchangeRate} />
+        <ExchangeContainer exchangeRate={exchangeRate} handleClick={this.handleSwap}/>
         <StyledCurrencyDisplay>
           <CurrencyDropdown
             currency={this.state.targetCurrency}
@@ -104,5 +104,12 @@ export default class extends React.Component<IIndexProps, IIndexState> {
       this.state.targetCurrency,
       this.state.value,
     )});
+  }
+
+  private handleSwap = () => {
+    this.setState({
+      baseCurrency: this.state.targetCurrency,
+      targetCurrency: this.state.baseCurrency,
+    });
   }
 }
