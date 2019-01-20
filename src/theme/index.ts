@@ -2,6 +2,7 @@ import * as styledComponents from "styled-components";
 
 const {
   default: styled,
+  createGlobalStyle,
   css,
   keyframes,
   ThemeProvider,
@@ -17,4 +18,4 @@ export const theme = {
   primaryColor: "#FFF",
 };
 
-export { css, keyframes, styled, ThemeProvider };
+export { createGlobalStyle, css, keyframes, styled, ThemeProvider };
