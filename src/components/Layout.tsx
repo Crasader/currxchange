@@ -1,5 +1,9 @@
 import * as React from "react";
-import { createGlobalStyle, theme, ThemeProvider} from "../theme/index";
+
+import { createGlobalStyle, theme, ThemeProvider } from "../theme/index";
+import { StyledContainer } from "../theme/StyledContainer";
+import { StyledHeader } from "../theme/StyledHeader";
+
 import Head from "./Head";
 
 const GlobalStyle = createGlobalStyle`
@@ -18,7 +22,12 @@ export default ({ children }) => (
     <ThemeProvider theme={theme}>
       <React.Fragment>
         <GlobalStyle />
-        {children}
+        <StyledContainer>
+          <StyledHeader>
+            <h1>Currency Exchange</h1>
+          </StyledHeader>
+          {children}
+        </StyledContainer>
       </React.Fragment>
     </ThemeProvider>
   </div>

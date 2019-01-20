@@ -2,7 +2,11 @@ import * as React from "react";
 
 import CurrencyDisplay from "../src/components/CurrencyDisplay";
 import CurrencyDropdown from "../src/components/CurrencyDropdown";
+import ExchangeContainer from "../src/components/ExchangeContainer";
+import Footer from "../src/components/Footer";
 import Layout from "../src/components/Layout";
+
+import { StyledCurrencyDisplay } from "../src/theme/StyledCurrencyDisplay";
 
 import { getLatestRates } from "../src/modules/exchange/api";
 import getExchangeRate from "../src/modules/exchange/getExchangeRate";
@@ -50,31 +54,28 @@ export default class extends React.Component<IIndexProps, IIndexState> {
   public render() {
     const baseBalance = this.state.wallet.getBalance(this.state.baseCurrency);
     const targetBalance = this.state.wallet.getBalance(this.state.targetCurrency);
+    const exchangeRate = getExchangeRate(this.state.rates, this.state.baseCurrency, this.state.targetCurrency);
     return (
       <Layout>
-        <main>
-          <h1>Exchange</h1>
+        <StyledCurrencyDisplay>
           <CurrencyDropdown
             currency={this.state.baseCurrency}
             handleChange={this.handleChangeCurrency("baseCurrency")}
           />
           <div>
-            <input type="text" value={this.state.value} onChange={this.handleChangeValue} />
+            <input type="number" value={this.state.value} onChange={this.handleChangeValue} />
           </div>
           <CurrencyDisplay currency={this.state.baseCurrency} value={baseBalance} />
+        </StyledCurrencyDisplay>
+        <ExchangeContainer exchangeRate={exchangeRate} />
+        <StyledCurrencyDisplay>
           <CurrencyDropdown
             currency={this.state.targetCurrency}
             handleChange={this.handleChangeCurrency("targetCurrency")}
           />
-          <CurrencyDisplay
-            currency={ this.state.targetCurrency }
-            value={ getExchangeRate(this.state.rates, this.state.baseCurrency, this.state.targetCurrency) }
-          />
           <CurrencyDisplay currency={this.state.targetCurrency} value={targetBalance} />
-          <button onClick={this.handleConvert}>
-            Exchange
-          </button>
-        </main>
+        </StyledCurrencyDisplay>
+        <Footer handleConvert={this.handleConvert} />
       </Layout>
     );
   }

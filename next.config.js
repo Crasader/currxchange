@@ -1,11 +1,12 @@
 const webpack = require('webpack')
+const withImages = require('next-images')
 const withTypescript = require('@zeit/next-typescript')
 
 if (process.env.NODE_ENV !== 'production') {
   require('now-env')
 }
 
-module.exports = withTypescript({
+module.exports = withImages(withTypescript({
   webpack: config => {
     config.plugins.push(
       new webpack.DefinePlugin({
@@ -14,4 +15,4 @@ module.exports = withTypescript({
     )
     return config
   }
-})
+}))
